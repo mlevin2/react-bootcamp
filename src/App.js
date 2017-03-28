@@ -1,5 +1,8 @@
-import React, {Component} from "react";
+import "bootstrap/dist/css/bootstrap.css";
+
 import "./App.css";
+
+import React, {Component} from "react";
 
 import Foo from "./components/Foo";
 
