@@ -22,12 +22,16 @@ class App extends Component {
 			],
 			progress: 0,
 			categoryIndex: 0,
-			addCategoryValue: ''
+			addCategoryValue: '',
+			addTaskValue: ''
 		};
 		this.handleAddCategoryChange = this.handleAddCategoryChange.bind(this);
 		this.handleAddCategorySubmit = this.handleAddCategorySubmit.bind(this);
 		this.handleDeleteCategory = this.handleDeleteCategory.bind(this);
 		this.selectCategory = this.selectCategory.bind(this);
+		this.handleAddTaskChange = this.handleAddTaskChange.bind(this);
+		this.handleAddTaskSubmit = this.handleAddTaskSubmit.bind(this);
+		this.handleDeleteTask = this.handleDeleteTask.bind(this);
 	}
 
 	selectCategory(categoryToSelect) {
@@ -39,13 +43,30 @@ class App extends Component {
 		this.setState({ categories, categoryIndex: 0 });
 	}
 
+	handleDeleteTask(taskToDelete) {
+		console.log(taskToDelete);
+	}
+
 	handleAddCategoryChange(event) {
 		this.setState({ addCategoryValue: event.target.value });
+	}
+
+	handleAddTaskChange(event) {
+		this.setState({ addTaskValue: event.target.value });
 	}
 
 	handleAddCategorySubmit(event) {
 		event.preventDefault();
 		this.setState({ categories: [...this.state.categories, { name: this.state.addCategoryValue, tasks: [{ description: 'Default task', done: false }] }], addCategoryValue: '' });
+	}
+
+	handleAddTaskSubmit(event) {
+		event.preventDefault();
+		let newCategories = this.state.categories;
+		if (newCategories.length > 0) {
+			newCategories[this.state.categoryIndex].tasks.push({ description: this.state.addTaskValue, done: false });
+		}
+		this.setState({ categories: newCategories, addTaskValue: '' });
 	}
 
 	componentDidMount() {
@@ -98,7 +119,7 @@ class App extends Component {
 							<div className="panel panel-default">
 
 								<div className="panel-heading">
-									<AddItem placeholder="Enter task description"/>
+									<AddItem placeholder="Enter task description" submitHandler={this.handleAddTaskSubmit} changeHandler={this.handleAddTaskChange} value={this.state.addTaskValue}/>
 								</div>
 
 								<div className="panel-body">
